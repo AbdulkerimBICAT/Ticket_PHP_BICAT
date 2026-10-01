@@ -1,58 +1,47 @@
+<?php
+$message = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $code = (int) $_POST['code'];
+
+    if ($code >= 1 && $code <= 999) {
+        $articles = array(
+            21 => 'un blouson en cuir',
+            123 => 'une paire de chaussette'
+        );
+
+        if (isset($articles[$code])) {
+            $message = 'Le code ' . $code . ' est correct. L\'information correspondante est : ' . $articles[$code] . '.';
+        } else {
+            $message = 'Le code ' . $code . ' est correct.';
+        }
+    } elseif ($code === 0) {
+        $message = 'Le code zéro est un cas particulier.';
+    } else {
+        $message = 'Le code est incorrect, trop grand !';
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ticket</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f3f3f3;
-            margin: 0;
-            padding: 40px;
-        }
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 30px;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
-        }
-        h1 {
-            color: #b000b5;
-            margin-bottom: 20px;
-        }
-        form {
-            margin-top: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-        input[type="number"] {
-            width: 220px;
-            padding: 10px;
-            font-size: 16px;
-            margin-bottom: 15px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Ticket</h1>
-        <form method="POST" action="">
-            <label for="code">Code de l'article :</label>
-            <input type="number" id="code" name="code" min="0" max="999" placeholder="Entrez un code" required>
-            <br>
-            <button type="submit">Valider</button>
-        </form>
-    </div>
+    <h1>Ticket</h1>
+
+    <form method="post" action="">
+        <label for="code">Code :</label>
+        <input type="number" name="code" id="code">
+        <input type="submit" value="Valider">
+    </form>
+
+    <?php
+    if ($message != "") {
+        echo $message;
+    }
+    ?>
 </body>
 </html>
